@@ -9,6 +9,9 @@ from scipy.io import loadmat
 # from deepxde.backend import tf
 # Import torch if using backend pytorch
 import torch
+device = torch.device(
+    "cuda" if torch.cuda.is_available() else "cpu"
+)
 # Import paddle if using backend paddle
 # import paddle
 
@@ -36,7 +39,8 @@ def pde(x, y):
     dy_xx = dde.grad.hessian(y, x, i=0, j=0)
     return dy_t - d * dy_xx - 5 * (y - y**3)
 
-# Hard restraints on initial + boundary conditions
+# Hard restraints on initial + boundary conditions --> test profile as numerical benchmark is transformation of cos function
+
 # Backend tensorflow.compat.v1 or tensorflow
 # def output_transform(x, y):
 #     return x[:, 0:1]**2 * tf.cos(np.pi * x[:, 0:1]) + x[:, 1:2] * (1 - x[:, 0:1]**2) * y
